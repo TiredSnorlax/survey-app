@@ -97,10 +97,10 @@ const SurveyId = () => {
       const bodyRef = document.querySelector("body");
       if (editing) {
         setEditing(false);
-        bodyRef.style.overflowY = "scroll";
+        if (usingTouch) bodyRef.style.overflowY = "scroll";
       } else {
         setEditing(true);
-        bodyRef.style.overflowY = "hidden";
+        if (usingTouch) bodyRef.style.overflowY = "hidden";
       }
     }
 
