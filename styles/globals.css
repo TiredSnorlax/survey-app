@@ -13,4 +13,12 @@ a {
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --dark-grey: rgb(20, 33, 61);
+  --dark-yellow: rgb(255, 201, 115);
+  --grey: rgb(229, 229, 229);
 }
