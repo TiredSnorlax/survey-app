@@ -10,7 +10,7 @@ const Dropdown = ({title, options, actions}) => {
         <button className={style.btn} onClick={() => setOpen(!open)} >{title ? title : <FaChevronDown />}</button>
         <div className={`${style.content} ${open ? style.open : ""}`} style={{'--num': options.length.toString()}}>
             { options.map( (option, i) => (
-                <div onClick={() => {actions[i](); setOpen(false);}}>
+                <div key={i} onClick={() => {actions[i](); setOpen(false);}}>
                     <p>
                         {option}
                     </p>

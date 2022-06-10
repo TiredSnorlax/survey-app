@@ -165,7 +165,7 @@ const SurveyId = () => {
         <input className={style.titleInput} type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
         <input className={style.descriptionInput} type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
         <div className={style.side} >
-          <div className={style.homeBtn} ><a href='/'><MdHome /></a></div>
+          <div className={style.homeBtn} onClick={() => router.push("/")} ><MdHome /></div>
           <button className={style.resultsBtn} onClick={viewResults} >View Results</button>
           <button className={style.publishBtn} onClick={() => setPublishMenuOpen(true)} >Publish</button>
         </div>
