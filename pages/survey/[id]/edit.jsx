@@ -5,7 +5,6 @@ import axios from 'axios'
 import { MdHome } from 'react-icons/md'
 
 import EditSurveyQuestions from '../../../components/Edit/EditSurveyQuestions'
-import useDB from '../../../components/Hooks/useDB'
 
 import style from '../../../styles/Survey.module.css'
 import PublishMenu from '../../../components/Edit/PublishMenu'
@@ -13,7 +12,6 @@ import PublishMenu from '../../../components/Edit/PublishMenu'
 const SurveyId = () => {
     const router = useRouter();
     const { id } = router.query;
-    const { connected } = useDB();
 
     const [survey, setSurvey] = useState(null);
     const [questions, setQuestions] = useState([]);
@@ -126,9 +124,9 @@ const SurveyId = () => {
     }
 
     useEffect(() => {
-        if (!id || !connected) return;
+        if (!id) return;
         getSurvey();
-    }, [id, connected])
+    }, [id])
 
     useEffect(() => {
       if (!survey) return;

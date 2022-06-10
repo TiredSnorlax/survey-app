@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/router'
-import useDB from "../../../components/Hooks/useDB"
 
 import axios from 'axios'
 import GraphContainer from '../../../components/Results/GraphContainer'
@@ -12,7 +11,6 @@ import styles from '../../../styles/Results.module.css'
 const ResultsPage = () => {
     const router = useRouter();
     const { id } = router.query;
-    const { connected } = useDB();
     const [survey, setSurvey] = useState(null);
     const [data, setData] = useState(null);
 
@@ -58,13 +56,13 @@ const ResultsPage = () => {
     }
 
     useEffect(() => {
-        if (!id || !connected) return;
+        if (!id) return;
         getSurvey();
 
       return () => {
           setSurvey(null);
       }
-    }, [id, connected])
+    }, [id])
 
     useEffect(() => {
         if (!survey) return;

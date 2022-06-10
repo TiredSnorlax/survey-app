@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 import User from "../../models/User";
 import Survey from "../../models/Survey";
 
-const url = "mongodb+srv://admin:wqzOGQN55aTWDzmH@survey-app-cluster.42puv.mongodb.net/survey-app-db?retryWrites=true&w=majority"
+const url = process.env.NEXT_PUBLIC_MONGODB_URL.toString();
 
 
 export default async function handler(req, res) {
-    if ( mongoose.connections[0].readyState) {
-        console.log('already connected');
-    } else {
+    console.log(mongoose.connection.readyState)
+    if (mongoose.connection.readyState != 1) {
         await mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true} ).then( () => {
-            console.log("connected");
-        })
-    }
+            console.log("new connection");
+    })
+ }
+
     res.status(200).json({ message: 'connected' })
 }

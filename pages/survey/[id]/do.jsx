@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 
 import axios from 'axios'
 import DoSurveyQuestion from '../../../components/Do/DoSurveyQuestion';
-import useDB from '../../../components/Hooks/useDB';
 
 import surveyStyle from '../../../styles/Survey.module.css'
 import style from '../../../styles/DoSurvey.module.css'
@@ -12,7 +11,6 @@ const DoPage = () => {
     const [survey, setSurvey] = useState(null);
     const router = useRouter();
     const { id } = router.query;
-    const { connected } = useDB();
 
     const [highlightedQuestions, setHightlightedQuestions] = useState([]);
 
@@ -26,9 +24,8 @@ const DoPage = () => {
     }
 
     useEffect(() => {
-        if (!connected) return;
         getSurvey();
-    }, [connected])
+    }, [])
 
     const submit = async () => {
         let questionsList = survey.questions.map( q => q._id);

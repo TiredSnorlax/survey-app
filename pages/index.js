@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import HomeSurveyItem from '../components/HomeSurveyItem';
-import useDB from '../components/Hooks/useDB';
 
 import { MdAdd } from 'react-icons/md'
 
@@ -16,11 +15,10 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [surveys, setSurveys]  = useState([]);
   const router = useRouter();
-  const { connected } = useDB();
 
   const [editing, setEditing] = useState(false);
 
-  const checkIfLoggedIn = () => {
+  const checkIfLoggedIn = async () => {
     const _user = window.sessionStorage.getItem("user");
     if (!_user) {
       router.push("./login");
@@ -61,10 +59,13 @@ export default function Home() {
 
   useEffect(() => {
     checkIfLoggedIn();
-    if (connected && user) {
-      getDb();
-    }
-  }, [connected])
+  }, [])
+
+  useEffect(() => {
+    if (!user) return
+    getDb();
+  }, [user])
+
 
 
   return (
