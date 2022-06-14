@@ -3,13 +3,11 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import HomeSurveyItem from '../components/HomeSurveyItem';
+import LoadingScreen from '../components/Miscellaneous/LoadingScreen';
 
 import { MdAdd } from 'react-icons/md'
 
 import styles from '../styles/Home.module.css';
-
-// TO BE CHANGED
-const USERID = "625a446d2877a3842f3a7d77";
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -17,6 +15,7 @@ export default function Home() {
   const router = useRouter();
 
   const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkIfLoggedIn = async () => {
     const _user = window.sessionStorage.getItem("user");
@@ -35,6 +34,9 @@ export default function Home() {
       console.log(res);
       sessionStorage.setItem("userID", res.data.user._id);
       setSurveys(res.data.user.surveys);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
     }).catch( (err) => console.log(err))
   }
 
@@ -78,6 +80,9 @@ export default function Home() {
         ))}
       <div className={styles.newSurveyBtn} onClick={createNewSurvey} ><span><MdAdd /></span><p>New Survey</p></div>
       </div>
+      { loading &&
+        <LoadingScreen />
+      }
     </div>
   )
 }

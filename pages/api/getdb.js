@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Survey from '../../models/Survey'
 import User from "../../models/User";
 
 export default async function handler(req, res) {

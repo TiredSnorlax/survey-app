@@ -12,28 +12,6 @@
     color: rgba(0, 0, 0, 0.8);
 }
 
-.optionsList {
-    padding: 1rem;
-    display: grid;
-    grid-auto-flow: row;
-    grid-auto-rows: 2rem;
-}
-
-.option {
-    font-size: 1.2rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.option > * {
-    height: 100%;
-}
-
-.option label {
-    padding-left: 1rem;
-}
-
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -1px) rotate(-0.5deg); }
@@ -69,4 +47,41 @@
 
 .submitBtn:active {
     background: rgba(255, 255, 255, 0.5);
+}
+/* MCQ questions */
+
+.optionsList {
+    padding: 1rem;
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: 2rem;
+}
+
+.option {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.option > * {
+    height: 100%;
+}
+
+.option label {
+    padding-left: 1rem;
+}
+
+
+/* OE questions */
+.OEcontainer {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.OEcontainer textarea {
+    padding: 1rem;
+    width: 100%;
+    resize: none;
+    font-size: 1.1rem;
 }

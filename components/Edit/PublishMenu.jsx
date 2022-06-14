@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import style from '../../styles/Survey.module.css'
 import {QRCodeSVG} from 'qrcode.react';
 
-const PublishMenu = ({id, publishMenuOpen, setPublishMenuOpen}) => {
+const PublishMenu = ({id, setPublishMenuOpen}) => {
     const [copied, setCopied] = useState(false);
     const [link, setLink] = useState(null);
 
@@ -26,7 +26,6 @@ const PublishMenu = ({id, publishMenuOpen, setPublishMenuOpen}) => {
     }
   return (
       <div>
-        { publishMenuOpen &&
             <div className={style.menuContainer}>
                 <div className={style.menu}>
                     <h1>Links to your survey</h1>
@@ -39,7 +38,6 @@ const PublishMenu = ({id, publishMenuOpen, setPublishMenuOpen}) => {
                     </div>
                 </div>
             </div>
-        }
         </div>
   )
 }

@@ -5,6 +5,7 @@ import axios from 'axios'
 import { MdHome } from 'react-icons/md'
 
 import EditSurveyQuestions from '../../../components/Edit/EditSurveyQuestions'
+import LoadingScreen from '../../../components/Miscellaneous/LoadingScreen'
 
 import style from '../../../styles/Survey.module.css'
 import PublishMenu from '../../../components/Edit/PublishMenu'
@@ -12,6 +13,7 @@ import PublishMenu from '../../../components/Edit/PublishMenu'
 const SurveyId = () => {
     const router = useRouter();
     const { id } = router.query;
+    const [loading, setLoading] = useState(true);
 
     const [survey, setSurvey] = useState(null);
     const [questions, setQuestions] = useState([]);
@@ -57,6 +59,7 @@ const SurveyId = () => {
         ).then( (res) => {
           console.log(res);
           setSurvey(res.data.survey);
+          setLoading(false);
         }).catch( (err) => {
           if (err.message === "Request failed with status code 401") {
             router.push("/")
@@ -109,14 +112,16 @@ const SurveyId = () => {
       }).then( (res) => {
         console.log(res);
         setSurvey({...res.data.survey});
+        setLoading(false);
       })
     }
 
     const saveSurvey = () => {
+      setLoading(true);
       updateAllQuestions();
       setTimeout(() => {
         sendToAPI();
-      }, 50);
+      }, 100);
     }
 
     const viewResults = () => {
@@ -177,7 +182,8 @@ const SurveyId = () => {
       </div>
         <button className={`${style.saveBtn} ${style.fixedBtns}`} onClick={saveSurvey} >Save</button>
         <button className={`${style.editBtn} ${style.fixedBtns}`} onClick={editClick} >{editing ? "Editing" : "Edit"}</button>
-      <PublishMenu id={id} publishMenuOpen={publishMenuOpen} setPublishMenuOpen={setPublishMenuOpen} />
+      { publishMenuOpen && <PublishMenu id={id} setPublishMenuOpen={setPublishMenuOpen} /> }
+      { loading && <LoadingScreen />}
     </div>
   )
 }

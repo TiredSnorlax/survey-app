@@ -119,7 +119,7 @@
     justify-self: center;
     border-radius: 2rem;
 
-    outline: 3px solid white;
+    border: 3px solid white;
     overflow: hidden;
 
     cursor: pointer;

@@ -1,0 +1,53 @@
+.questionContent {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.optionItem {
+    display: flex;
+    justify-content: flex-start;
+
+    margin: 0.5rem;
+}
+
+.optionItem input:nth-child(2) {
+    flex: 1 1 auto;
+    margin: 0 1rem;
+    min-width: 50px;
+}
+
+.optionItem button {
+    color: grey;
+    font-size: 1.5rem;
+
+    height: 1.5rem;
+    width: 1.5rem;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.optionItem button:hover {
+    color: red;
+}
+
+.questionContent > .addOptionBtn {
+    background: var(--dark-yellow);
+    border: none;
+
+    align-self: center;
+    width: 5rem;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    font-size: 1.5rem;
+    line-height: 0;
+
+    cursor: pointer;
+}
+
+.questionContent > .addOptionBtn:hover {
+    background: rgb(236, 193, 0);
+}

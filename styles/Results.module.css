@@ -7,8 +7,7 @@
 
 }
 
-
-.graphItem {
+.resultItem {
     background: white;
     border-radius: 1rem;
     margin: 1rem 0;
@@ -18,6 +17,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
 
     width: 100%;
     min-width: 300px;
@@ -30,4 +30,151 @@
     position: absolute;
     right: 1rem;
     top: 1rem;
+}
+
+.backBtn {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    cursor: pointer;
+    z-index: 1000;
+}
+.backBtn::after {
+    content: "";
+    border-radius: 100%;
+    position: absolute;
+
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+
+    transition: 0.3s;
+
+    z-index: -1;
+}
+
+.backBtn:hover::after {
+    width: 3rem;
+    height: 3rem;
+    background: white;
+}
+
+.clearBtn {
+    background: none;
+    border-radius: 2rem;
+    border: 2px solid orange;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-size: 1.1rem;
+    width: 200px;
+    align-self: center;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.clearBtn:hover {
+    background: orange;
+}
+
+.clearMenuContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+}
+
+.clearMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+
+    padding: 1rem;
+    border-radius: 1rem;
+    background: white;
+}
+
+
+.clearMenu p {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.clearMenu > div {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clearMenu button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+.clearMenu button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0);
+}
+
+.clearMenu button:hover::after {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.clearMenu button:last-child {
+    background: red;
+    color: white;
+}
+
+
+/* OE questions */
+.OEResponsesList {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    grid-auto-rows: 1rem;
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    padding-right: 1rem;
+
+    align-items: center;
+    row-gap: 1.5rem;
+
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.OEResponsesList p {
+    padding-bottom: 0.5rem;
+}
+
+.OEResponsesList p:nth-child(odd) {
+    text-align: center;
+}
+
+.OEResponsesList p:nth-child(even) {
+    border-bottom: 1px solid grey;
 }

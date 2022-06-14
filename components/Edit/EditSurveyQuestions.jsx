@@ -1,21 +1,31 @@
 import { useEffect, useState } from 'react'
-import { MdClose, MdModeEdit, MdAdd, MdOutlineDelete } from 'react-icons/md'
-import axios from 'axios'
+import { MdOutlineDelete } from 'react-icons/md'
 
 import style from '../../styles/Survey.module.css'
+import MCQ from './QuestionTypes/MCQ'
+import OE from './QuestionTypes/OE'
+import Dropdown from '../Miscellaneous/Dropdown'
 
 const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swapQuestions, updateQuestions, updateAllQs}) => {
   const [question, setQuestion] = useState(q);
 
   const [content, setContent] = useState("");
   const [options, setOptions] = useState([]);
+  const [type, setType] = useState(null);
 
   var scrollUpInterval;
   var scrollDownInterval;
 
+  const questionTypeOptions = ["mcq", "oe"];
+  const questionTypeActions = [
+    () => setType("mcq"),
+    () => setType("oe"),
+  ];
+
 
   const setupQuestion = (question) => {
     setContent(question.content);
+    setType(question.type);
     let _options = [];
     question.options.map((option, i) => {
       _options.push(option);
@@ -29,6 +39,7 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
     let _question = question;
     _question.options = options;
     _question.content = content;
+    _question.type = type;
     updateQuestions(index, _question);
   }, [updateAllQs])
 
@@ -145,12 +156,25 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
   }
 
   const touchCancel = (e) => {
-    if (usingTouch) {
+    if (editing) {
+      let touchLocation = e.changedTouches[0];
+      // console.log(touchLocation);
 
+      const elements = document.getElementsByClassName(style.questionContainer);
+      console.log(elements);
+      for (let i = 0; i < elements.length; i++) {
+        const _element = elements[i];
+        if (_element.getBoundingClientRect().top <= touchLocation.clientY && _element.getBoundingClientRect().bottom >= touchLocation.clientY) {
+          if (_element.id !== index + "") {
+            swapQuestions(_element.id, index)
+            console.log(_element.id, index)
+          }
+        }
+      }
     }
 
+    console.log(scrollUpInterval)
   }
-
 
 
   const deleteQuestion = () => {
@@ -169,18 +193,13 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
         onTouchMove={touchMove}
         onTouchEnd={(e) => touchEnd(e)}
         >
-      <input type="text" value={content} onChange={(e) => setContent(e.target.value)} />
-      <div className={style.questionContent} >
-        {options.map( (option, i) => (
-          <div key={i} className={style.optionItem}>
-            <p>{i + 1}.</p>
-            <input type="text" value={option} onChange={(e) => changeOption(e, i)} />
-            <button onClick={() => deleteOption(i)} ><MdClose /></button>
-          </div>
-        ))}
-        <button className={style.addOptionBtn} onClick={addOption}><MdAdd /></button>
-        <button className={style.deleteQuestionBtn} onClick={deleteQuestion} ><MdOutlineDelete /></button>
+      <div className={style.questionHead} >
+        <input type="text" value={content} onChange={(e) => setContent(e.target.value)} />
+        <Dropdown title={null} options={questionTypeOptions} actions={questionTypeActions} />
       </div>
+      { type === "mcq" && <MCQ options={options} deleteOption={deleteOption} changeOption={changeOption} addOption={addOption} /> }
+      { type === "oe" && <OE/> }
+      <button className={style.deleteQuestionBtn} onClick={deleteQuestion} ><MdOutlineDelete /></button>
     </div>
   )
 }

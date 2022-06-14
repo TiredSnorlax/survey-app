@@ -11,9 +11,10 @@ if (req.method === 'POST') {
       const q = questions[i];
       if (q._id) {
         // update question
-        console.log(questions[i])
+        console.log(typeof q.type)
         let res = await Question.findByIdAndUpdate(q._id, {...q}, {new:true});
         _newQuestions.push(res);
+        console.log(res)
       } else {
         // create new question
         console.log({...q});
@@ -29,6 +30,7 @@ if (req.method === 'POST') {
         console.log("delete " + question._id.toString());
       }
     });
+    // console.log(_newQuestions)
     _survey.questions = _newQuestions;
     _survey.title = content.newTitle;
     _survey.description = content.newDescription;

@@ -7,8 +7,8 @@ const questionSchema = new Schema({
         type: String,
         required: true,
     },
-    isMCQ: {
-        type: Boolean,
+    type: {
+        type: String,
         required: true,
     },
     options: [{

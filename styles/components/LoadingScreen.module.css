@@ -1,0 +1,57 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.container {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+
+    animation: fadeIn 0.5s;
+    animation-iteration-count: 1;
+}
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    animation: fadeIn 0.5s;
+}
+
+.content h1 {
+    font-size: 2rem;
+}
+
+.content > * {
+    color: white !important;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.content svg {
+    animation: rotate 0.5s;
+    animation-iteration-count: infinite;
+    font-size: 1.2rem;
+}

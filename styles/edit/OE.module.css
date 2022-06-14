@@ -1,0 +1,12 @@
+.questionContent {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    padding-bottom: 2rem;
+}
+
+.questionContent textarea {
+    resize: none;
+    padding: 1rem;
+    font-size: 1rem;
+}
