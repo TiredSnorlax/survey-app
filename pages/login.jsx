@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
+import Head from 'next/head'
 import jwtDecode from 'jwt-decode';
 
 const LoginPage = () => {
@@ -28,6 +29,26 @@ const LoginPage = () => {
         padding: "1rem",
         background: "white",
         borderRadius: "1rem",
+    }
+
+    const titleContainer = {
+        position: "relative",
+        transform: "translateX(-20%)",
+        marginBottom: "3rem",
+        userSelect: "none"
+    }
+
+    const titleStyle = {
+        fontSize: "5rem",
+        fontFamily: "'Sacramento', cursive"
+    }
+
+    const subtextStyle = {
+        position: "absolute",
+        fontSize: "2rem",
+        fontFamily: "'Baloo 2', cursive",
+        bottom: "-0.5rem",
+        right: "-3rem",
     }
 
     const handleCallbackResponse = (response) => {
@@ -71,6 +92,15 @@ const LoginPage = () => {
 
   return (
     <div style={containerStyle}>
+        <Head>
+            <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
+            <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Sacramento&display=swap" rel="stylesheet"></link>
+        </Head>
+        <div style={titleContainer}>
+            <p style={titleStyle}>Foogle</p>
+            <p style={subtextStyle}>Gorms</p>
+        </div>
         <div style={menuStyle} >
             <h1>Sign In</h1>
             <div id='signInDiv'></div>

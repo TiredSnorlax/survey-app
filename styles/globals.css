@@ -26,3 +26,22 @@ a {
   --dark-yellow: rgb(255, 201, 115);
   --grey: rgb(229, 229, 229);
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-yellow);
+  padding: 3rem 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background: rgba(138, 138, 138, 0.5);
+  border: 2px solid var(--dark-yellow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 138, 138, 0.8);
+}

@@ -33,14 +33,14 @@
 }
 
 .backBtn {
-    position: absolute;
+    position: fixed;
     top: 2rem;
     left: 2rem;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     cursor: pointer;
     z-index: 1000;
 }

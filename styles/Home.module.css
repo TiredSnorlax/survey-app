@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
 
-    overflow: hidden;
+    overflow-y: auto;
 
     display: flex;
     flex-direction: column;
@@ -15,7 +15,78 @@
 .container h1 {
     color: var(--dark-grey);
     font-size: 3rem;
+    margin-top: 3rem;
     padding: 1rem;
+}
+
+.profileContainer {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+}
+
+.profile {
+    position: relative;
+    background: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 2rem;
+    overflow: hidden;
+    padding: 0.5rem;
+
+}
+
+.profile * {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.profile img {
+    flex: 0 0 50px;
+    border-radius: 50%;
+}
+
+.profile p {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 80px;
+}
+
+.logoutBtn {
+    width: auto;
+    padding: 0;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    background: red;
+    color: white;
+
+    z-index: -1;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.logoutBtn:active {
+    background: rgb(255, 135, 135);
+}
+
+.logoutBtn.open {
+    transform: translate(-50%, 0);
+    top: calc(100%);
+    padding: 10px;
+    padding-top: 0;
+    border-radius: 0 0 1rem 1rem ;
 }
 
 .editBtn {

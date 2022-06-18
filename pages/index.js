@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 import HomeSurveyItem from '../components/HomeSurveyItem';
 import LoadingScreen from '../components/Miscellaneous/LoadingScreen';
@@ -24,6 +25,11 @@ export default function Home() {
     } else {
       setUser(JSON.parse(_user));
     }
+  }
+
+  const logout = () => {
+    sessionStorage.clear();
+    router.push("./login");
   }
 
 
@@ -73,6 +79,9 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <h1>Surveys</h1>
+      { user &&
+        <Profile user={user} logout={logout} />
+      }
       <button className={`${styles.editBtn} ${editing ? styles.active : ""}`} onClick={editClick}>{editing ? "Save" : "Edit"}</button>
       <div className={styles.surveyContainer} >
         { surveys.map( (survey, i) => (
@@ -83,6 +92,23 @@ export default function Home() {
       { loading &&
         <LoadingScreen />
       }
+    </div>
+  )
+}
+
+
+const Profile = ({ user, logout }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className={styles.profileContainer}>
+        <div className={styles.profile} onClick={() => setOpen(!open)} >
+          <Image src={user.picture.toString()} width="30px" height="30px" />
+          <p>{user.name}</p>
+        </div>
+        <div className={`${styles.logoutBtn} ${open && styles.open}`} onClick={logout} >
+          <p>Logout</p>
+        </div>
     </div>
   )
 }
