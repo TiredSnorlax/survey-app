@@ -24,10 +24,10 @@ a {
 :root {
   --dark-grey: rgb(20, 33, 61);
   --dark-yellow: rgb(255, 201, 115);
-  --grey: rgb(229, 229, 229);
+  --grey: rgb(230, 230, 230);
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 12px;
 }
 
@@ -44,4 +44,4 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(138, 138, 138, 0.8);
-}
+} */

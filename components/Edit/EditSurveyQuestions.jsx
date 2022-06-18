@@ -11,7 +11,7 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
 
   const [content, setContent] = useState("");
   const [options, setOptions] = useState([]);
-  const [type, setType] = useState(null);
+  const [type, setType] = useState("");
 
   var scrollUpInterval;
   var scrollDownInterval;

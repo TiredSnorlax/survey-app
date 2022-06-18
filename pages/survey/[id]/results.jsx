@@ -12,7 +12,7 @@ import styles from '../../../styles/Results.module.css'
 const ResultsPage = () => {
     const router = useRouter();
     const { id } = router.query;
-    const [survey, setSurvey] = useState(null);
+    const [survey, setSurvey] = useState({});
     // put data and preprocess data into individual question types
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const ResultsPage = () => {
             userID: window.sessionStorage.getItem("userID") , purpose: "edit"
         }).then( (res) => {
           console.log(res);
-          setSurvey(res.data.survey);
+          setSurvey({...res.data.survey});
           setLoading(false);
         }).catch( (err) => {
           if (err.message === "Request failed with status code 401") {
@@ -38,18 +38,28 @@ const ResultsPage = () => {
         const responses = survey.responses;
         const questions = survey.questions;
 
+        if (!questions || questions.length === 0) return;
 
         const consolidatedResults = {};
         questions.map( q => {
             consolidatedResults[q._id] = [];
         })
 
+       const questionIDs = questions.map( q => q._id);
 
         for (let j = 0; j < responses.length; j++) {
-            for (const questionID in responses[j]) {
-                consolidatedResults[questionID].push(responses[j][questionID])
+            for (let i = 0; i < questionIDs.length; i++) {
+                const id = questionIDs[i];
+                const re = responses[j][id];
+                consolidatedResults[id].push(responses[j][id]);
             }
         }
+
+        // for (let j = 0; j < responses.length; j++) {
+        //     for (const questionID in responses[j]) {
+        //         consolidatedResults[questionID].push(responses[j][questionID])
+        //     }
+        // }
         setData(consolidatedResults)
         return consolidatedResults;
     }
@@ -91,7 +101,7 @@ const ResultsPage = () => {
         <div className={styles.backBtn} onClick={returnEdit} >
             <FaArrowLeft />
         </div>
-        { menuOpen && <Menu id={id} setMenuOpen={setMenuOpen} setSurvey={setSurvey} />}
+        { menuOpen && <Menu id={id} setMenuOpen={setMenuOpen} getSurvey={getSurvey} />}
         { loading && <LoadingScreen />}
     </div>
   )
@@ -100,7 +110,7 @@ const ResultsPage = () => {
 export default ResultsPage
 
 
-const Menu = ({ id, setMenuOpen, setSurvey }) => {
+const Menu = ({ id, setMenuOpen, getSurvey }) => {
     const [response, setResponse] = useState(null);
 
     const send = async () => {
@@ -109,11 +119,14 @@ const Menu = ({ id, setMenuOpen, setSurvey }) => {
         }).then( (res) => {
           console.log(res);
           setResponse(res.data.message);
-          setSurvey({...res.data.survey});
         }).catch( (err) => {
             console.log(err);
             setResponse(err.message)
         })
+    }
+
+    const close = () => {
+        setMenuOpen(false);
     }
 
     return (
@@ -123,6 +136,7 @@ const Menu = ({ id, setMenuOpen, setSurvey }) => {
                 <>
                     <h1>Are you sure you want to clear the responses?</h1>
                     <p>Such changes are irreversible</p>
+                    <p>Please remember to clear responses after each edit to get more accurate results!</p>
                     <div>
                         <button onClick={() => setMenuOpen(false)}>Cancel</button>
                         <button onClick={send}>Clear</button>
@@ -131,9 +145,9 @@ const Menu = ({ id, setMenuOpen, setSurvey }) => {
 
                 :
                 <>
-                    <h1>Response</h1>
-                    <p>{response}</p>
-                    <button onClick={() => setMenuOpen(false)}>Close</button>
+                    <h1>{response}</h1>
+                    <p>Please refresh your page to see changes!</p>
+                    <button onClick={close}>Close</button>
                 </>
             }
             </div>

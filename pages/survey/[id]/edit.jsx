@@ -85,9 +85,8 @@ const SurveyId = () => {
       _questions.push(
         {
           content: "New Question",
-          isMCQ: true,
           options: [],
-          responses: [],
+          type: "mcq",
         }
       );
 
@@ -157,7 +156,6 @@ const SurveyId = () => {
         }, 100);
       })
 
-
     }, [])
 
 
@@ -166,7 +164,7 @@ const SurveyId = () => {
     <div className={style.container} ref={containerRef} >
       <div className={style.info} >
         <input className={style.titleInput} type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-        <input className={style.descriptionInput} type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+        <textarea className={style.descriptionInput} type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} rows="3" ></textarea>
         <div className={style.side} >
           <div className={style.homeBtn} onClick={() => router.push("/")} ><MdHome /></div>
           <button className={style.resultsBtn} onClick={viewResults} >View Results</button>
