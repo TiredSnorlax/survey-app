@@ -11,7 +11,13 @@ export default async function getSurvey(req, res) {
             res.status(401).json({message: "Unauthorized. Please login with the right account"})
             return
         }
-        res.status(200).json({ message: "Got survey successfully", survey});
+        const surveyWithoutCreator = {
+            title: survey.title,
+            description: survey.description,
+            questions: survey.questions,
+            responses: survey.responses
+        }
+        res.status(200).json({ message: "Got survey successfully", survey: surveyWithoutCreator });
     }
 
 }

@@ -9,13 +9,14 @@ import LoadingScreen from '../../../components/Miscellaneous/LoadingScreen'
 
 import style from '../../../styles/Survey.module.css'
 import PublishMenu from '../../../components/Edit/PublishMenu'
+import { server } from '../../../components/config'
 
-const SurveyId = () => {
+const SurveyId = ({ data }) => {
     const router = useRouter();
     const { id } = router.query;
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    const [survey, setSurvey] = useState(null);
+    const [survey, setSurvey] = useState(data);
     const [questions, setQuestions] = useState([]);
 
     const [newTitle, setNewTitle] = useState("");
@@ -24,6 +25,7 @@ const SurveyId = () => {
     const [editing, setEditing] = useState(false);
     const [drag, setDrag] = useState(null);
     const [usingTouch, setUsingTouch] = useState(false);
+
     var resizeTimeout;
 
     const [updateAllQs, setUpdateAllQs] = useState(false);
@@ -52,20 +54,6 @@ const SurveyId = () => {
     }
 
 
-    const getSurvey = async () => {
-        await axios.post("/api/survey/" + id, {
-            userID: window.sessionStorage.getItem("userID") , purpose: "edit"
-        }
-        ).then( (res) => {
-          console.log(res);
-          setSurvey(res.data.survey);
-          setLoading(false);
-        }).catch( (err) => {
-          if (err.message === "Request failed with status code 401") {
-            router.push("/")
-          }
-        })
-    }
 
     const swapQuestions = (indexOne, indexTwo) => {
       console.log("swap questions")
@@ -124,40 +112,42 @@ const SurveyId = () => {
     }
 
     const viewResults = () => {
-      router.push(`${window.location.origin}/survey/${id}/results`);
+      router.push(`${window.location.origin}/survey/${id}/results?userID=${sessionStorage.getItem("userID")}`);
     }
 
-    useEffect(() => {
-        if (!id) return;
-        getSurvey();
-    }, [id])
+    // useEffect(() => {
+    //     if (!id) return;
+    //     getSurvey();
+    // }, [id])
 
     useEffect(() => {
-      if (!survey) return;
+
       setNewTitle(survey.title);
       setNewDescription(survey.description);
       setQuestions([...survey.questions]);
-    }, [survey])
 
-    useEffect(() => {
       if (window.innerWidth <= 500) {
         setUsingTouch(true);
       }
-      window.addEventListener("resize", () => {
+      // window.addEventListener("resize", () => {
+      //   clearTimeout(resizeTimeout);
+      //   resizeTimeout = setTimeout(() => {
+      //     console.log(window.innerWidth)
+      //     if (window.innerWidth <= 500) {
+      //       console.log("on mobile");
+      //       setUsingTouch(true);
+      //     } else {
+      //       setUsingTouch(false);
+      //     }
+      //   }, 100);
+      // })
+
+      return () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-          console.log(window.innerWidth);
-          if (window.innerWidth <= 500) {
-            console.log("on mobile");
-            setUsingTouch(true);
-          } else {
-            setUsingTouch(false);
-          }
-        }, 100);
-      })
+        resizeTimeout = undefined;
+      }
 
     }, [])
-
 
 
   return (
@@ -187,3 +177,34 @@ const SurveyId = () => {
 }
 
 export default SurveyId
+
+
+export async function getServerSideProps(context) {
+
+  const surveyID = context.params.id;
+  const userID = context.query.userID;
+
+  let data;
+
+  if (userID) {
+      const res = await axios.post(server + "/api/survey/" + surveyID, {
+          userID , purpose: "edit"
+      })
+
+      data = res.data.survey;
+  }
+
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { data }
+  }
+}

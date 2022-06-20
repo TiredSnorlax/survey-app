@@ -40,9 +40,7 @@ export default function Home() {
       console.log(res);
       sessionStorage.setItem("userID", res.data.user._id);
       setSurveys(res.data.user.surveys);
-      setTimeout(() => {
-        setLoading(false);
-      }, 100);
+      setLoading(false);
     }).catch( (err) => console.log(err))
   }
 

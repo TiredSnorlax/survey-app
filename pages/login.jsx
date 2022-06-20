@@ -13,7 +13,7 @@ const LoginPage = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: "100vw",
+        width: "100%",
         height: "100vh",
 
         padding: "5rem 0",

@@ -9,30 +9,33 @@ import LoadingScreen from '../../../components/Miscellaneous/LoadingScreen'
 import surveyStyles from '../../../styles/Survey.module.css'
 import styles from '../../../styles/Results.module.css'
 
-const ResultsPage = () => {
+import { server } from '../../../components/config'
+
+const ResultsPage = ({ data }) => {
     const router = useRouter();
     const { id } = router.query;
-    const [survey, setSurvey] = useState({});
+    const [survey, setSurvey] = useState(data);
+
     // put data and preprocess data into individual question types
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [processedData, setProcessedData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [menuOpen, setMenuOpen] = useState(false);
 
 
-    const getSurvey = async () => {
-        await axios.post("/api/survey/" + id, {
-            userID: window.sessionStorage.getItem("userID") , purpose: "edit"
-        }).then( (res) => {
-          console.log(res);
-          setSurvey({...res.data.survey});
-          setLoading(false);
-        }).catch( (err) => {
-          if (err.message === "Request failed with status code 401") {
-            router.push("/")
-          }
-        })
-    }
+    // const getSurvey = async () => {
+    //     await axios.post("/api/survey/" + id, {
+    //         userID: window.sessionStorage.getItem("userID") , purpose: "edit"
+    //     }).then( (res) => {
+    //       console.log(res);
+    //       setSurvey({...res.data.survey});
+    //       setLoading(false);
+    //     }).catch( (err) => {
+    //       if (err.message === "Request failed with status code 401") {
+    //         router.push("/")
+    //       }
+    //     })
+    // }
 
     const preprocessData = () => {
         const responses = survey.responses;
@@ -55,27 +58,22 @@ const ResultsPage = () => {
             }
         }
 
-        // for (let j = 0; j < responses.length; j++) {
-        //     for (const questionID in responses[j]) {
-        //         consolidatedResults[questionID].push(responses[j][questionID])
-        //     }
-        // }
-        setData(consolidatedResults)
+        setProcessedData(consolidatedResults)
         return consolidatedResults;
     }
 
     const returnEdit = () => {
-        router.push("../" + id + "/edit");
+        router.push("../" + id + "/edit?userID=" + sessionStorage.getItem("userID"));
     }
 
-    useEffect(() => {
-        if (!id) return;
-        getSurvey();
+    // useEffect(() => {
+    //     if (!id) return;
+    //     getSurvey();
 
-      return () => {
-          setSurvey(null);
-      }
-    }, [id])
+    //   return () => {
+    //       setSurvey(null);
+    //   }
+    // }, [id])
 
     useEffect(() => {
         if (!survey) return;
@@ -92,16 +90,16 @@ const ResultsPage = () => {
             </div>
         }
         <button className={styles.clearBtn} onClick={() => setMenuOpen(true)}>Clear Results</button>
-        <h1>Results</h1>
+        <h1 className={styles.header} >Results</h1>
         <div className={styles.resultsList}>
-            { survey && data && survey.questions.map( (q, i) => (
-                <GraphContainer key={i} index={i} question={q} data={data[q._id]} />
+            { survey && processedData && survey.questions.map( (q, i) => (
+                <GraphContainer key={i} index={i} question={q} data={processedData[q._id]} />
             ))}
         </div>
         <div className={styles.backBtn} onClick={returnEdit} >
             <FaArrowLeft />
         </div>
-        { menuOpen && <Menu id={id} setMenuOpen={setMenuOpen} getSurvey={getSurvey} />}
+        { menuOpen && <Menu id={id} setMenuOpen={setMenuOpen} />}
         { loading && <LoadingScreen />}
     </div>
   )
@@ -110,7 +108,7 @@ const ResultsPage = () => {
 export default ResultsPage
 
 
-const Menu = ({ id, setMenuOpen, getSurvey }) => {
+const Menu = ({ id, setMenuOpen }) => {
     const [response, setResponse] = useState(null);
 
     const send = async () => {
@@ -154,4 +152,35 @@ const Menu = ({ id, setMenuOpen, getSurvey }) => {
         </div>
     )
 
+}
+
+
+export async function getServerSideProps(context) {
+
+  const surveyID = context.params.id;
+  const userID = context.query.userID;
+
+  let data;
+
+  if (userID) {
+      const res = await axios.post(server + "/api/survey/" + surveyID, {
+          userID , purpose: "edit"
+      })
+
+      data = res.data.survey;
+  }
+
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { data }
+  }
 }

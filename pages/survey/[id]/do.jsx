@@ -8,30 +8,33 @@ import LoadingScreen from '../../../components/Miscellaneous/LoadingScreen';
 import surveyStyle from '../../../styles/Survey.module.css'
 import style from '../../../styles/DoSurvey.module.css'
 
-const DoPage = () => {
-    const [survey, setSurvey] = useState(null);
+import { server } from '../../../components/config';
+
+const DoPage = ({ data }) => {
+    const [survey, setSurvey] = useState(data);
     const router = useRouter();
     const { id } = router.query;
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const [highlightedQuestions, setHightlightedQuestions] = useState([]);
 
-    const getSurvey = async () => {
-        console.log(id);
-        console.log(sessionStorage.getItem("userID"))
-        await axios.post("/api/survey/" + id).then( (res) => {
-          console.log(res);
-          setSurvey(res.data.survey);
-          setLoading(false);
-        })
-    }
+    // const getSurvey = async () => {
+    //     console.log(id);
+    //     console.log(sessionStorage.getItem("userID"))
+    //     await axios.post("/api/survey/" + id).then( (res) => {
+    //       console.log(res);
+    //       setSurvey(res.data.survey);
+    //       setLoading(false);
+    //     })
+    // }
 
-    useEffect(() => {
-        if (!id) return;
-        getSurvey();
-    }, [id])
+    // useEffect(() => {
+    //     if (!id) return;
+    //     getSurvey();
+    // }, [id])
 
     const submit = async () => {
+        setLoading(true);
         let questionsList = survey.questions.map( q => q._id);
         let unfilledQuestions = [];
         const formData = new FormData(document.querySelector('form'));
@@ -62,6 +65,7 @@ const DoPage = () => {
             console.log("unfilled");
             setHightlightedQuestions([...unfilledQuestions]);
         }
+        setLoading(false);
     }
 
   return (
@@ -85,3 +89,27 @@ const DoPage = () => {
 }
 
 export default DoPage
+
+export async function getServerSideProps(context) {
+
+  const surveyID = context.params.id;
+  const userID = context.query.userID;
+
+
+  const res = await axios.post(server + "/api/survey/" + surveyID)
+
+  const data = res.data.survey;
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { data }
+  }
+}

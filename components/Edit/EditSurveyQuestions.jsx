@@ -104,7 +104,6 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
     if (editing) {
       // if clientY is higher than something, scroll up
       let touchLocation = e.targetTouches[0];
-      console.log(touchLocation.clientY)
       if (parseInt(touchLocation.clientY) < 60) {
         if (!scrollUpInterval) {
           scrollUpInterval = setInterval(() => {
@@ -118,7 +117,6 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
           }, 5);
         }
       } else {
-          console.log("clear up")
           if (scrollUpInterval) {
             clearInterval(scrollUpInterval);
             scrollUpInterval = undefined;

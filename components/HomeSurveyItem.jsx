@@ -10,12 +10,12 @@ const HomeSurveyItem = ({ survey, setSurveys, editing, i }) => {
 
   const click = () => {
     if (!editing) {
-      router.push("/survey/" + survey._id + "/edit");
+      router.push("/survey/" + survey._id + "/edit?" + "userID=" + sessionStorage.getItem("userID"));
     }
   }
 
   const deleteSurvey = async () => {
-    await axios.post(`/api/survey/${survey._id}/delete`, { id: survey._id, userID: window.localStorage.getItem("userID")}).then( res => {
+    await axios.post(`/api/survey/${survey._id}/delete`, { id: survey._id, userID: sessionStorage.getItem("userID")}).then( res => {
       console.log(res.data);
       setSurveys(res.data.user.surveys)
     });
