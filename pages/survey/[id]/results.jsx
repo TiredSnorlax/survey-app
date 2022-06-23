@@ -3,7 +3,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 
 import axios from 'axios'
-import GraphContainer from '../../../components/Results/GraphContainer'
+import QuestionContainer from '../../../components/Results/QuestionContainer'
 import LoadingScreen from '../../../components/Miscellaneous/LoadingScreen'
 
 import surveyStyles from '../../../styles/Survey.module.css'
@@ -63,6 +63,7 @@ const ResultsPage = ({ data }) => {
     }
 
     const returnEdit = () => {
+        setLoading(true);
         router.push("../" + id + "/edit?userID=" + sessionStorage.getItem("userID"));
     }
 
@@ -93,7 +94,7 @@ const ResultsPage = ({ data }) => {
         <h1 className={styles.header} >Results</h1>
         <div className={styles.resultsList}>
             { survey && processedData && survey.questions.map( (q, i) => (
-                <GraphContainer key={i} index={i} question={q} data={processedData[q._id]} />
+                <QuestionContainer key={i} index={i} question={q} data={processedData[q._id]} />
             ))}
         </div>
         <div className={styles.backBtn} onClick={returnEdit} >

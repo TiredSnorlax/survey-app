@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
     const { connected } = useDB();
 
   return (
-    <div>
+    <>
       <Head>
         <title>Foogle Gorms</title>
         <link rel="icon" href="/icon.svg"></link>
@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
       { connected &&
         <Component {...pageProps} />
       }
-    </div>
+    </>
   )
 }
 

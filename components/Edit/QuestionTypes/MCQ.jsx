@@ -8,7 +8,7 @@ const MCQ = ({ options, deleteOption, changeOption, addOption}) => {
         {options.map( (option, i) => (
           <div key={i} className={style.optionItem}>
             <p>{i + 1}.</p>
-            <input type="text" value={option} onChange={(e) => changeOption(e, i)} />
+            <input type="text" value={option} onChange={(e) => changeOption(e.target.value, i)} />
             <button onClick={() => deleteOption(i)} ><MdClose /></button>
           </div>
         ))}

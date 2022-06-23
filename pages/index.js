@@ -27,7 +27,7 @@ export default function Home() {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
     sessionStorage.clear();
     router.push("./login");
   }
@@ -49,7 +49,7 @@ export default function Home() {
           email: user.email,
       }).then( (res) => {
           console.log(res);
-          router.push(`/survey/${res.data.survey._id}/edit`)
+          router.push(`/survey/${res.data.survey._id}/edit?userID=${sessionStorage.getItem("userID")}`)
       }).catch( (err) => {
           console.log(err.message);
       })
@@ -83,7 +83,7 @@ export default function Home() {
       <button className={`${styles.editBtn} ${editing ? styles.active : ""}`} onClick={editClick}>{editing ? "Save" : "Edit"}</button>
       <div className={styles.surveyContainer} >
         { surveys.map( (survey, i) => (
-          <HomeSurveyItem survey={survey} setSurveys={setSurveys} editing={editing} i={i} key={i}  />
+          <HomeSurveyItem survey={survey} setSurveys={setSurveys} editing={editing} i={i} setLoading={setLoading} key={i}  />
         ))}
       <div className={styles.newSurveyBtn} onClick={createNewSurvey} ><span><MdAdd /></span><p>New Survey</p></div>
       </div>

@@ -4,12 +4,13 @@ import { FaRegTrashAlt } from 'react-icons/fa'
 import axios from 'axios'
 import styles from '../styles/Home.module.css'
 
-const HomeSurveyItem = ({ survey, setSurveys, editing, i }) => {
+const HomeSurveyItem = ({ survey, setSurveys, editing, i, setLoading }) => {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const click = () => {
     if (!editing) {
+      setLoading(true);
       router.push("/survey/" + survey._id + "/edit?" + "userID=" + sessionStorage.getItem("userID"));
     }
   }

@@ -5,6 +5,7 @@ import style from '../../styles/DoSurvey.module.css';
 
 import MCQ from './QuestionTypes/MCQ';
 import OE from './QuestionTypes/OE';
+import Slider from './QuestionTypes/Slider';
 
 const DoSurveyQuestion = ({ q, highlightedQuestions, setHighlightedQuestions }) => {
     const [question, setQuestion] = useState(q);
@@ -28,6 +29,7 @@ const DoSurveyQuestion = ({ q, highlightedQuestions, setHighlightedQuestions }) 
         <h2>{question.content}</h2>
         { question.type === "mcq" && <MCQ question={question} clearHighLight={clearHighLight} /> }
         { question.type === "oe" && <OE question={question} clearHighLight={clearHighLight} /> }
+        { question.type === "slider" && <Slider question={question} /> }
     </div>
   )
 }

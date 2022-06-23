@@ -85,3 +85,33 @@
     resize: none;
     font-size: 1.1rem;
 }
+
+/* Slider Questions */
+.sliderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliderContainer .slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    padding: 1rem;
+}
+
+.sliderContainer .slider p {
+    padding: 0.5rem;
+}
+
+.sliderContainer .slider input {
+    width: 100%;
+}
+
+.sliderContainer > p:last-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

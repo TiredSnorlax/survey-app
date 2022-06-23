@@ -5,6 +5,7 @@ import style from '../../styles/Survey.module.css'
 import MCQ from './QuestionTypes/MCQ'
 import OE from './QuestionTypes/OE'
 import Dropdown from '../Miscellaneous/Dropdown'
+import Slider from './QuestionTypes/Slider'
 
 const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swapQuestions, updateQuestions, updateAllQs}) => {
   const [question, setQuestion] = useState(q);
@@ -16,10 +17,11 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
   var scrollUpInterval;
   var scrollDownInterval;
 
-  const questionTypeOptions = ["mcq", "oe"];
+  const questionTypeOptions = ["mcq", "oe", "slider"];
   const questionTypeActions = [
     () => setType("mcq"),
     () => setType("oe"),
+    () => setType("slider"),
   ];
 
 
@@ -52,11 +54,11 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
   }, [q])
 
 
-  const changeOption = (e, i) => {
+  const changeOption = (value, i) => {
     let _options = options;
     let _option = options[i];
-    if (e.target.value !== _option) {
-      _options[i] = e.target.value;
+    if (value !== _option) {
+      _options[i] = value;
     }
     setOptions([..._options]);
   }
@@ -197,6 +199,7 @@ const EditSurveyQuestions = ({q, editing, usingTouch, index, setDrag, drag, swap
       </div>
       { type === "mcq" && <MCQ options={options} deleteOption={deleteOption} changeOption={changeOption} addOption={addOption} /> }
       { type === "oe" && <OE/> }
+      { type === "slider" && <Slider  options={options} changeOption={changeOption} addOption={addOption} />}
       <button className={style.deleteQuestionBtn} onClick={deleteQuestion} ><MdOutlineDelete /></button>
     </div>
   )

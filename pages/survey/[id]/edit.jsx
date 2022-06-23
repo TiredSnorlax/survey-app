@@ -112,13 +112,14 @@ const SurveyId = ({ data }) => {
     }
 
     const viewResults = () => {
+      setLoading(true)
       router.push(`${window.location.origin}/survey/${id}/results?userID=${sessionStorage.getItem("userID")}`);
     }
 
-    // useEffect(() => {
-    //     if (!id) return;
-    //     getSurvey();
-    // }, [id])
+    const returnHome = () => {
+      setLoading(true);
+      router.push("/");
+    }
 
     useEffect(() => {
 
@@ -143,8 +144,8 @@ const SurveyId = ({ data }) => {
       // })
 
       return () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = undefined;
+        // clearTimeout(resizeTimeout);
+        // resizeTimeout = undefined;
       }
 
     }, [])
@@ -156,7 +157,7 @@ const SurveyId = ({ data }) => {
         <input className={style.titleInput} type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
         <textarea className={style.descriptionInput} type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} rows="3" ></textarea>
         <div className={style.side} >
-          <div className={style.homeBtn} onClick={() => router.push("/")} ><MdHome /></div>
+          <div className={style.homeBtn} onClick={returnHome} ><MdHome /></div>
           <button className={style.resultsBtn} onClick={viewResults} >View Results</button>
           <button className={style.publishBtn} onClick={() => setPublishMenuOpen(true)} >Publish</button>
         </div>

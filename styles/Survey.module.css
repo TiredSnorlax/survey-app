@@ -4,13 +4,12 @@
     justify-content: flex-start;
     align-items: stretch;
 
-    min-height: 100vh;
     max-width: 100%;
 
     overflow-x: hidden;
 
     padding: 1rem;
-    background: var(--dark-yellow);
+    /* background: var(--dark-yellow); */
 }
 
 .side {
